@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState} from "react";
+import Form from "./Form";
 
 function App() {
+  const [input, setInput] = useState("");
+  const [list, setList] = useState([]);
+
+  const onChange = (event) => {
+    setInput(event.target.value);
+  }
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (input === "") {
+      return ;
+    }
+    setInput("");
+    setList(prevArray => [input, ...prevArray]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>todolist-app</h1>
+      <form onSubmit={onSubmit}>
+        <input type="text" onChange={onChange} value={input} placeholder="할 일을 입력하세요."></input>
+        <button type="submit">Add</button>
+      </form>
+      <hr/>
+      {list.map((input) => <div>{input}</div>)}
     </div>
   );
 }
